@@ -18,8 +18,8 @@ def insert_patient(data):
     cursor = conn.cursor()
     sql = """
     INSERT INTO E_casepatient 
-    (Name, RFIDNO, Age, Gender, BloodGroup, DateofBirth, ContactNo, EmailID, Address, DoctorAssigned)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    (Name, RFIDNO, Age, Gender, BloodGroup, DateofBirth, ContactNo, EmailID, password, Address, DoctorAssigned)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
     cursor.execute(sql, data)
     conn.commit()
@@ -103,14 +103,22 @@ def dashboard():
             email = st.text_input("Email ID")
             address = st.text_area("Address")
             doctor = st.text_input("Doctor Assigned")
+            password = st.text_input("Password", type="password")
+            confirm_password = st.text_input("Confirm Password", type="password")
 
             submitted = st.form_submit_button("Register Patient")
             if submitted:
                 try:
-                    age_int = int(age)
-                    dob_str = dob.strftime('%Y-%m-%d')
-                    insert_patient((name, rfid, age_int, gender, blood_group, dob_str,
-                                    contact, email, address, doctor))
+                    if password != confirm_password:
+                        st.error("❌ Passwords do not match!")
+                    elif password == "":
+                        st.error("❌ Password cannot be empty!")
+                    else:
+                        age_int = int(age)
+                        dob_str = dob.strftime('%Y-%m-%d')
+    
+                        insert_patient((name, rfid, age_int, gender, blood_group, dob_str,
+                                        contact, email, address, doctor, password))
                     st.success("✅ Patient registered successfully!")
                 except Exception as e:
                     st.error(f"❌ Error: {e}")
