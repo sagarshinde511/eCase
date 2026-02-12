@@ -210,7 +210,7 @@ def login_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if username == "doctor" and password == "0987":
+        if username == "doctor" and password == "1234":
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success("✅ Login successful")
