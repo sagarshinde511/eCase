@@ -118,7 +118,7 @@ def dashboard():
                         dob_str = dob.strftime('%Y-%m-%d')
     
                         insert_patient((name, rfid, age_int, gender, blood_group, dob_str,
-                                        contact, email, address, doctor, password))
+                                        contact, email , password, doctor, address))
                     st.success("✅ Patient registered successfully!")
                 except Exception as e:
                     st.error(f"❌ Error: {e}")
